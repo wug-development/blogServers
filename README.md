@@ -9,3 +9,6 @@ npm install
 ```
 npm start
 ```
+```
+项目启动请先配置：
+/config/defalut.js

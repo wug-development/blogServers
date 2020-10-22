@@ -1,14 +1,15 @@
+const mysql = require('../mysql')
 const config = {
     // 启动端口
     port: 3000,
 
     //数据库配置
     database: {
-        DATABASE: '',
-        USERNAME: 'root',
-        PASSWORD: '',
+        DATABASE: mysql.DATABASE,
+        USERNAME: mysql.USERNAME,
+        PASSWORD: mysql.PASSWORD,
         PORT: '3306',
-        HOST: ''
+        HOST: mysql.PORT
     },
     security: {
         secretKey: "secretKey",
