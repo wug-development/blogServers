@@ -1,0 +1,41 @@
+html, body{ height: 100%; }
+body {
+    margin: 0;
+    font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+ul,li{ list-style: none; }
+a {
+    color: #00B7FF;
+    text-decoration: none;
+}
+.pubbody{ display: flex; height: 100%; }
+.leftmenu{ width: 20%; height: 100%; overflow-y: auto; margin: 0; padding: 20px 0 20px 50px; box-sizing: border-box;}
+.leftmenu li{ height: 30px; line-height: 30px; cursor: pointer; }
+.leftmenu li a{ color: #666; }
+.leftmenu li a:hover,.leftmenu li a.cur{ color: #333; font-weight: bold; }
+.rightcontent{ width: 80%; padding: 20px 0 20px 20px; box-sizing: border-box; overflow-y: auto; }
+.gray{ color: #808080; }
+.tab1{ padding-left: 20px; }
+.tab2{ padding-left: 40px; }
+.tab3{ padding-left: 60px; }
+.tab4{ padding-left: 80px; }
+
+*::-webkit-scrollbar {
+    /*滚动条整体样式*/
+    width : 4px;  /*高宽分别对应横竖滚动条的尺寸*/
+    height: 1px;
+}
+*::-webkit-scrollbar-thumb {
+    /*滚动条里面小方块*/
+    border-radius: 4px;
+    box-shadow   : inset 0 0 2px rgba(0, 0, 0, 0.2);
+    background   : #999;
+}
+*::-webkit-scrollbar-track {
+    /*滚动条里面轨道*/
+    box-shadow   : inset 0 0 2px rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+    background   : #ccc;
+}

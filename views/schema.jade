@@ -1,0 +1,28 @@
+extends layout
+
+block content
+    div.pubbody= ''
+        ul.leftmenu= ''
+            -for(let item in tnames)
+                li= ''
+                    -if (tnames[item].table_name == title) 
+                        a(href='/schema/table/' + tnames[item].table_name).cur= tnames[item].table_name
+                    -else
+                        a(href='/schema/table/' + tnames[item].table_name)= tnames[item].table_name
+        div.rightcontent= ''
+            code= ''
+                div.gray /**
+                div.gray ├── schema
+                div.gray= '└── ' + title + '.js'
+                div.gray */
+                div= ""
+                div= "const moment = require('moment');"
+                div= "module.exports = function (sequelize, DataTypes) {"
+                div.tab1= "return sequelize.define('" + title + "', {"
+                -for(let a in data) 
+                    div.tab2=a + ':{'
+                    -for(let b in data[a])
+                        div.tab3=b + ':' + data[a][b] + ','
+                    div.tab2='},'
+                div.tab1= '})'
+                | }
