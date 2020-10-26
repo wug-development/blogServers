@@ -31,9 +31,9 @@ class schemaController {
         let _name = this.params.name
         let _list = await Schemas.getColumns(_name)
         this.response.status = 200;
-        let res = Callback()
-        res.data = _list
-        this.body = res
+        this.body = Callback({
+            data: _list
+        })
         // return _list
     }
 

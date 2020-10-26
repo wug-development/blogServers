@@ -1,4 +1,4 @@
-const mysql = require('../set')
+const mysql = require('./set')
 const config = {
     // 启动端口
     port: 3000,
@@ -9,7 +9,7 @@ const config = {
         USERNAME: mysql.USERNAME,
         PASSWORD: mysql.PASSWORD,
         PORT: '3306',
-        HOST: mysql.PORT
+        HOST: mysql.HOST
     },
     security: {
         secretKey: "secretKey",

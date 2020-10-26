@@ -13,7 +13,7 @@ block content
             code= ''
                 div.gray /**
                 div.gray ├── schema
-                div.gray= '└── ' + title + '.js'
+                div.gray= '└── ' + title + 'Schema.js'
                 div.gray */
                 div= ""
                 div= "const moment = require('moment');"
@@ -22,7 +22,13 @@ block content
                 -for(let a in data) 
                     div.tab2=a + ':{'
                     -for(let b in data[a])
-                        div.tab3=b + ':' + data[a][b] + ','
+                        div.tab3=b + ':' + (data[a][b].toString().replace('date', a)) + ','
                     div.tab2='},'
+                div.tab1= '}, {'
+                div.tab2= 'timestamps: false, // 去除createAt updateAt'
+                div.tab2= 'freezeTableName: true,  // 使用自定义表名'
+                div.tab2= '// deletedAt: false'
+                div.tab2= '// 删除数据时不删除数据，而是更新deleteAt字段 如果需要设置为true，则上面的deleteAt字段不能为false，也就是说必须启用'
+                div.tab2= '// paranoid: false'
                 div.tab1= '})'
                 | }
