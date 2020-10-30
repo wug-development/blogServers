@@ -82,7 +82,13 @@ for(let r in routers) {
 app.use(async (ctx, next) => {
     try {
         await next()
-        console.log('ctx.body', ctx.body)
+        if (ctx.status === 500) {
+            ctx.status = ctx.status
+            ctx.body = {
+                code: 500,
+                msg: '服务器错误'
+            }
+        }
     } catch (e) {
         ctx.app.emit('error', e, ctx)
     }
