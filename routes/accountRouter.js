@@ -6,5 +6,6 @@ const router = new Router({
 })
 
 router.get('/login', AccountController.login)
+router.get('/userinfo', AccountController.userInfo)
 
 module.exports = router;

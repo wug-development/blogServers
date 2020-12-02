@@ -22,7 +22,8 @@
   },
   "devDependencies": {
     "chai": "^4.2.0",
-    "koa": "^2.7.0",
+    "jsonwebtoken": "^8.5.1",
+    "koa": "^2.13.0",
     "koa-cors": "0.0.16",
     "koa-mysql-session": "0.0.2",
     "koa-session-minimal": "^4.0.0",

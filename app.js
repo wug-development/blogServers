@@ -7,7 +7,9 @@ const path = require('path')
 const bodyParser = require('koa-bodyparser')
 const staticCache = require('koa-static-cache')
 const cors = require('koa-cors') // 跨域
+const token = require('./lib/tokenTimeout')
 // const session = require('koa-session-minimal')
+// const config = require('./config/default.js')
 // const MysqlStore = require('koa-mysql-session')
 
 const routers = require('./routes/routers') // 获取路由
@@ -15,18 +17,22 @@ const routers = require('./routes/routers') // 获取路由
 
 const app = new App()
 
-// // session存储配置
+// session存储配置
 // const sessionMysqlConfig = {
 //     user: config.database.USERNAME,
 //     password: config.database.PASSWORD,
 //     database: config.database.DATABASE,
 //     host: config.database.HOST,
 // }
-// 配置session中间件
+// // 配置session中间件
 // app.use(session({
-//     key: 'USER_SID',
+//     key: 'mysqlConfig',
 //     store: new MysqlStore(sessionMysqlConfig)
 // }))
+
+// 处理token 过期
+app.use(token.dealTimeout)
+app.use(token.checkToken)
 
 // 缓存
 app.use(staticCache(path.join(__dirname, './public'), { dynamic: true }, {
@@ -42,12 +48,13 @@ app.use(views('views', {
 app.use(bodyParser({enableTypes: ['json', 'form', 'text']}))
 app.use(json())
 // app.use(logger())
+// 跨域
 app.use(cors())
 
 app.use(function *(next){
-    var start = new Date;
-    yield next;
-    var ms = new Date - start;
+    var start = new Date
+    yield next
+    var ms = new Date - start
     console.log('%s %s - %s', this.method, this.url, ms);
 });
 
@@ -82,10 +89,10 @@ for(let r in routers) {
 app.use(async (ctx, next) => {
     try {
         await next()
-        if (ctx.status === 500) {
-            ctx.status = ctx.status
+        if (ctx.status >= 300) {
+            ctx.status = 200
             ctx.body = {
-                code: 500,
+                code: ctx.status,
                 msg: '服务器错误'
             }
         }
@@ -94,9 +101,12 @@ app.use(async (ctx, next) => {
     }
 })
 app.on('error', (err, ctx) => {
-    console.log('error', ctx.body)
     ctx.status = 200
-    ctx.body = 'OK'
+    ctx.body = {
+        code: 500,
+        msg: '服务器错误',
+        reason: err.message
+    }
 })
 
 app.listen(3001)

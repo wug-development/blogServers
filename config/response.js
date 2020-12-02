@@ -7,8 +7,17 @@ const callback = (that, params) => {
     }, params)
 }
 
+const tokenOut = (that, params) => {
+    that.response.status = 200;
+    that.body = Object.assign({
+        code: 401,
+        msg: 'token timeout',
+        data: {}
+    }, params)
+}
+
 const catchs = (that, err, msg) => {
-    that.response.status = 412;
+    that.response.status = 200;
     that.body = {
         code: 412,
         msg: msg || '获取失败',
@@ -17,7 +26,7 @@ const catchs = (that, err, msg) => {
 }
 
 const notFound = (that, msg) => {
-    that.response.status = 416;
+    that.response.status = 200;
     that.body = {
         code: 416,
         msg: msg || '获取失败'
@@ -37,5 +46,6 @@ module.exports = {
     callback,
     tryCatch,
     catchs,
+    tokenOut,
     notFound
 }
