@@ -5,7 +5,6 @@ const router = new Router({
     prefix: '/account'
 })
 
-router.get('/login', AccountController.login)
 router.get('/userinfo', AccountController.userInfo)
 
 module.exports = router;
