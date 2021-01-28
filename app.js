@@ -2,33 +2,17 @@ const App = require('koa')
 const logger = require('koa-logger')
 const json = require('koa-json')
 const views = require('koa-views')
-// const onerror = require('koa-onerror')
 const path = require('path')
 const bodyParser = require('koa-bodyparser')
 const staticCache = require('koa-static-cache')
 const cors = require('koa-cors') // 跨域
 const token = require('./lib/tokenTimeout')
-// const session = require('koa-session-minimal')
-// const config = require('./config/default.js')
-// const MysqlStore = require('koa-mysql-session')
+const extendMethod = require('./lib/extendMethod')
 
 const routers = require('./routes/routers') // 获取路由
-// const errorHandler = require('./config/errorHandler') // 异常处理
 
 const app = new App()
-
-// session存储配置
-// const sessionMysqlConfig = {
-//     user: config.database.USERNAME,
-//     password: config.database.PASSWORD,
-//     database: config.database.DATABASE,
-//     host: config.database.HOST,
-// }
-// // 配置session中间件
-// app.use(session({
-//     key: 'mysqlConfig',
-//     store: new MysqlStore(sessionMysqlConfig)
-// }))
+extendMethod.init()
 
 // 处理token 过期
 app.use(token.dealTimeout)
@@ -63,29 +47,6 @@ for(let r in routers) {
     app.use(routers[r].routes(), routers[r].allowedMethods())
 }
 
-// error handler
-// onerror(app);
-
-// error-handling
-// app.on('error', (err, ctx) => {
-//     console.error('server error', err, ctx)
-//     // 未知异常状态，默认使用 500
-//     // if(!err.status) err.status = 500
-//     // ctx.status = err.status
-//     // ctx.type = 'application/json'
-//     // ctx.body = {error: err.message}
-// });
-// app.use(function* (next) {
-//     yield* next;
-//     if (this.response.status === 404 && !this.response.body) {
-//         this.status = 404
-//         this.type = 'application/json'
-//         this.body = {
-//             code: 404,
-//             msg: 'Not found'
-//         }
-//     }
-// });
 app.use(async (ctx, next) => {
     try {
         await next()
@@ -110,6 +71,5 @@ app.on('error', (err, ctx) => {
 })
 
 app.listen(3001)
-// errorHandler(app)
 
 module.exports = app;
